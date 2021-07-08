@@ -72,13 +72,19 @@ elif [[ "$1" == "--panels" ]]; then
 elif [[ "$1" == "--blocksnord" ]]; then
 	style="blocksnord"
 	launch_bar
+
+elif [[ "$1" == "--nordic" ]]; then
+	style="nordic"
+	launch_bar
+
 else
 	cat <<- EOF
 	Usage : launch.sh --theme
 		
 	Available Themes :
-	--blocks    --colorblocks    --cuts      --docky
-	--forest    --grayblocks     --hack      --material
-	--panels    --pwidgets       --shades    --shapes
+	--blocks     --colorblocks    --cuts      --docky
+	--forest     --grayblocks     --hack      --material
+	--panels     --pwidgets       --shades    --shapes
+	--blocksnord --nordic
 	EOF
 fi
