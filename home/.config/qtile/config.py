@@ -26,23 +26,22 @@
 import os
 import subprocess
 
-from libqtile import bar, widget, hook
-from libqtile.config import Screen
-from libqtile.utils import guess_terminal
+from libqtile import hook
 
 import default_config as current_config
 
-# mod = "mod4"
-terminal = guess_terminal()
-default_font = "MesloLGLDZ Nerd Font"
-
-
 if __name__ in ["config", "__main__"]:
+    # Global definitions
+    widget_defaults = current_config.global_definitions.widget_defaults
+    extension_defaults = current_config.global_definitions.extension_defaults
+
     # Constructors
     bindings = current_config.Bindings()
 
     layouts_module = current_config.Layouts()
     floating_layout_module = current_config.FloatingLayouts()
+
+    screen_module = current_config.Screens()
 
     # Qtile config variables
     keys = bindings.setup_keys(setup_groups=True)
@@ -50,6 +49,8 @@ if __name__ in ["config", "__main__"]:
 
     layouts = layouts_module.setup_layouts()
     floating_layout = floating_layout_module.setup_floating_layouts()
+
+    screens = screen_module.setup_screen()
 
     # Constants
     dgroups_key_binder = None
@@ -65,77 +66,6 @@ if __name__ in ["config", "__main__"]:
     # If things like steam games want to auto-minimize themselves when losing
     # focus, should we respect this or not?
     auto_minimize = True
-
-
-widget_defaults = dict(
-    font=default_font,
-    fontsize=12,
-    padding=3,
-)
-extension_defaults = widget_defaults.copy()
-
-
-def get_widgets():
-
-    widgets = [
-        # widget.CurrentLayout(),
-        widget.Spacer(length=2),  # type: ignore
-        widget.GroupBox(),  # type: ignore
-        widget.WindowName(show_state=False),  # type: ignore
-        # widget.Prompt(),
-        widget.Chord(  # type: ignore
-            chords_colors={
-                "launch": ("#ff0000", "#ffffff"),
-            },
-            name_transform=lambda name: name.upper(),
-        ),
-        # widget.TextBox("default config", name="default"),
-        widget.TextBox("", fontsize=20),  # type: ignore
-        widget.CPU(format="{load_percent}%"),  # type: ignore
-        widget.TextBox("", fontsize=20),  # type: ignore
-        widget.BatteryIcon(),  # type: ignore
-        widget.Battery(  # type: ignore
-            charge_char="",
-            discharge_char="",
-        ),
-        widget.KeyboardLayout(),  # type: ignore
-        widget.CheckUpdates(  # type: ignore
-            update_interval=1000, distro="Arch_checkupdates", display_format="Updates: {updates}"
-        ),
-        widget.Systray(),  # type: ignore
-        widget.PulseVolume(),  # type: ignore
-        widget.Clock(format="%A, %B %d - %H:%M "),  # type: ignore
-        widget.QuickExit(),  # type: ignore
-    ]
-
-    return widgets
-
-
-def setup_screens():
-    screens = [
-        Screen(
-            top=bar.Bar(
-                get_widgets(),
-                24,
-                # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-                # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
-            ),
-        ),
-        Screen(
-            top=bar.Bar(
-                get_widgets(),
-                24,
-                # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-                # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
-            ),
-        ),
-    ]
-
-    return screens
-
-
-if __name__ in ["config", "__main__"]:
-    screens = setup_screens()
 
 
 # Start of my configs
