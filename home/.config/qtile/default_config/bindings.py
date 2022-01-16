@@ -6,7 +6,7 @@ class Bindings(object):
     def __init__(self) -> None:
         self.mod = "mod4"
 
-    def setup_keys(self):
+    def setup_keys(self, setup_groups: bool = True):
         # Keybindings
         terminal = "alacritty"
 
@@ -53,28 +53,34 @@ class Bindings(object):
             Key([self.mod], "r", lazy.spawn("rofi -show drun")),
         ]
 
-        groups = [Group(i) for i in "123456789"]
+        if setup_groups:
+            from .groups import Groups
+
+            groups_obj = Groups()
+            groups = groups_obj.setup_groups()
+
+            keys.extend(self.setup_group_keys(groups=groups))
+
+        return keys
+
+    def setup_group_keys(self, groups: list[Group]):
+
+        group_keys = list()
 
         for i in groups:
-            keys.extend(
+            group_keys.extend(
                 [
-                    # mod1 + letter of group = switch to group
                     Key([self.mod], i.name, lazy.group[i.name].toscreen(), desc="Switch to group {}".format(i.name)),
-                    # self.mod1 + shift + letter of group = switch to & move focused window to group
                     Key(
                         [self.mod, "shift"],
                         i.name,
                         lazy.window.togroup(i.name, switch_group=True),
                         desc="Switch to & move focused window to group {}".format(i.name),
                     ),
-                    # Or, use below if you prefer not to switch to that group.
-                    # # self.mod1 + shift + letter of group = move focused window to group
-                    # Key([self.mod, "shift"], i.name, lazy.window.togroup(i.name),
-                    #     desc="move focused window to group {}".format(i.name)),
                 ]
             )
 
-        return keys
+        return group_keys
 
     def setup_mouse(self):
         mouse = [

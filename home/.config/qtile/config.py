@@ -26,11 +26,11 @@
 import os
 import subprocess
 
-from libqtile import bar, layout, widget, hook
-from libqtile.config import Match, Screen
+from libqtile import bar, widget, hook
+from libqtile.config import Screen
 from libqtile.utils import guess_terminal
 
-from bindings import Bindings
+import default_config as current_config
 
 # mod = "mod4"
 terminal = guess_terminal()
@@ -38,32 +38,34 @@ default_font = "MesloLGLDZ Nerd Font"
 
 
 if __name__ in ["config", "__main__"]:
-    obj_bindings = Bindings()
+    # Constructors
+    bindings = current_config.Bindings()
 
-    keys = obj_bindings.setup_keys()
-    mouse = obj_bindings.setup_mouse()
+    layouts_module = current_config.Layouts()
+    floating_layout_module = current_config.FloatingLayouts()
 
+    # Qtile config variables
+    keys = bindings.setup_keys(setup_groups=True)
+    mouse = bindings.setup_mouse()
+
+    layouts = layouts_module.setup_layouts()
+    floating_layout = floating_layout_module.setup_floating_layouts()
+
+    # Constants
     dgroups_key_binder = None
     dgroups_app_rules = []
     follow_mouse_focus = True
     bring_front_click = False
     cursor_warp = False
 
-layouts = [
-    layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),  # type: ignore
-    layout.Max(),  # type: ignore
-    # Try more layouts by unleashing below layouts.
-    # layout.Stack(num_stacks=2),
-    # layout.Bsp(),
-    # layout.Matrix(),
-    # layout.MonadTall(),
-    # layout.MonadWide(),
-    # layout.RatioTile(),
-    # layout.Tile(),
-    # layout.TreeTab(),
-    # layout.VerticalTile(),
-    # layout.Zoomy(),
-]
+    auto_fullscreen = True
+    focus_on_window_activation = "smart"
+    reconfigure_screens = True
+
+    # If things like steam games want to auto-minimize themselves when losing
+    # focus, should we respect this or not?
+    auto_minimize = True
+
 
 widget_defaults = dict(
     font=default_font,
@@ -79,7 +81,7 @@ def get_widgets():
         # widget.CurrentLayout(),
         widget.Spacer(length=2),  # type: ignore
         widget.GroupBox(),  # type: ignore
-        widget.WindowName(),  # type: ignore
+        widget.WindowName(show_state=False),  # type: ignore
         # widget.Prompt(),
         widget.Chord(  # type: ignore
             chords_colors={
@@ -134,26 +136,6 @@ def setup_screens():
 
 if __name__ in ["config", "__main__"]:
     screens = setup_screens()
-
-floating_layout = layout.Floating(  # type: ignore
-    float_rules=[
-        # Run the utility of `xprop` to see the wm class and name of an X client.
-        *layout.Floating.default_float_rules,  # type: ignore
-        Match(wm_class="confirmreset"),  # gitk
-        Match(wm_class="makebranch"),  # gitk
-        Match(wm_class="maketag"),  # gitk
-        Match(wm_class="ssh-askpass"),  # ssh-askpass
-        Match(title="branchdialog"),  # gitk
-        Match(title="pinentry"),  # GPG key password entry
-    ]
-)
-auto_fullscreen = True
-focus_on_window_activation = "smart"
-reconfigure_screens = True
-
-# If things like steam games want to auto-minimize themselves when losing
-# focus, should we respect this or not?
-auto_minimize = True
 
 
 # Start of my configs
