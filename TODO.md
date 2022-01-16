@@ -1,0 +1,1 @@
+- [] Ajustar libgestures, para melhorar o uso do touchpad
