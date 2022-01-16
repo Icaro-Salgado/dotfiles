@@ -69,7 +69,8 @@ if __name__ in ["config", "__main__"]:
 
 
 # Start of my configs
-@hook.subscribe.startup_once
+# @hook.subscribe.startup_once
+@hook.subscribe.startup
 def start_once():
     home = os.path.expanduser("~")
     subprocess.call([home + "/.config/qtile/autostart.sh"])
