@@ -1,32 +1,27 @@
+from typing import Literal
 from libqtile import bar
 from libqtile.config import Screen
 
 from .widgets import Widgets
+from .global_definitions import Colors
 
 
 class Screens(object):
-    def setup_screen(self):
-        widget_list = Widgets().setup_widgets()
+    def __init__(self):
+        self.colors = Colors()
 
-        screens = [
-            Screen(
-                top=bar.Bar(
-                    widget_list,
-                    24,
-                    # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-                    # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
-                    background="#000000",
-                    opacity=0.6,
-                ),
-            ),
-            Screen(
-                top=bar.Bar(
-                    widget_list,
-                    24,
-                    # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-                    # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
-                ),
-            ),
-        ]
+        self.widget_list = Widgets().setup_widgets()
+
+    def setup_screen(self):
+        screens = [Screen(top=self.get_bar(pos="top")), Screen(top=self.get_bar(pos="top"))]
 
         return screens
+
+    def get_bar(self, pos: Literal["top"]):
+        if pos == "top":
+            return bar.Bar(
+                self.widget_list,
+                size=24,
+                background=self.colors.primary_bg_color,
+                opacity=0.6,
+            )

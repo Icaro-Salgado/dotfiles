@@ -1,15 +1,14 @@
 from libqtile.config import Key, Group, Drag, Click
 from libqtile.command import lazy
 
+from . import global_definitions
+
 
 class Bindings(object):
     def __init__(self) -> None:
         self.mod = "mod4"
 
     def setup_keys(self, setup_groups: bool = True):
-        # Keybindings
-        terminal = "alacritty"
-
         keys = [
             # Switch between windows
             Key([self.mod], "h", lazy.layout.left(), desc="Move focus to left"),
@@ -40,7 +39,7 @@ class Bindings(object):
             Key([self.mod, "control"], "t", lazy.restart(), desc="Reload Qtile"),
             Key([self.mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
             # Applications launchers
-            Key([self.mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
+            Key([self.mod], "Return", lazy.spawn(global_definitions.terminal), desc="Launch terminal"),
             Key([self.mod], "r", lazy.spawn("rofi -show drun")),
             # Volume control
             Key([], "XF86AudioRaiseVolume", lazy.spawn("amixer -c 0 -q set Master 2dB+")),
@@ -62,15 +61,15 @@ class Bindings(object):
 
         group_keys = list()
 
-        for i in groups:
+        for pos, i in enumerate(groups):
             group_keys.extend(
                 [
-                    Key([self.mod], i.name, lazy.group[i.name].toscreen(), desc="Switch to group {}".format(i.name)),
+                    Key([self.mod], str(pos + 1), lazy.group[i.name].toscreen(), desc=f"Switch to group {pos}"),
                     Key(
                         [self.mod, "shift"],
-                        i.name,
+                        str(pos + 1),
                         lazy.window.togroup(i.name, switch_group=True),
-                        desc="Switch to & move focused window to group {}".format(i.name),
+                        desc=f"Switch to & move focused window to group {pos}",
                     ),
                 ]
             )
