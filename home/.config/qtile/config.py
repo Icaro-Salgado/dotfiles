@@ -25,7 +25,6 @@
 # SOFTWARE.
 import os
 import subprocess
-
 from libqtile import hook
 
 import default_config as current_config
@@ -36,21 +35,21 @@ if __name__ in ["config", "__main__"]:
     extension_defaults = current_config.global_definitions.extension_defaults
 
     # Constructors
+    screen_module = current_config.Screens()
+
     bindings = current_config.Bindings()
 
     layouts_module = current_config.Layouts()
     floating_layout_module = current_config.FloatingLayouts()
 
-    screen_module = current_config.Screens()
-
     # Qtile config variables
+    screens = screen_module.setup_screen()
+
     keys = bindings.setup_keys(setup_groups=True)
     mouse = bindings.setup_mouse()
 
     layouts = layouts_module.setup_layouts()
     floating_layout = floating_layout_module.setup_floating_layouts()
-
-    screens = screen_module.setup_screen()
 
     # Constants
     dgroups_key_binder = None

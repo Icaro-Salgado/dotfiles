@@ -13,8 +13,7 @@ class Screens(object):
         self.widget_list = Widgets().setup_widgets()
 
     def setup_screen(self):
-        screens = [Screen(top=self.get_bar(pos="top")), Screen(top=self.get_bar(pos="top"))]
-
+        screens = [Screen(top=self.get_bar(pos="top"))]
         return screens
 
     def get_bar(self, pos: Literal["top"]):
@@ -23,5 +22,5 @@ class Screens(object):
                 self.widget_list,
                 size=24,
                 background=self.colors.primary_bg_color,
-                opacity=0.6,
+                opacity=0.7,
             )

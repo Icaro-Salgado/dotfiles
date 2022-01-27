@@ -7,7 +7,7 @@
 # conky -c $HOME/.config/conky/doomone-qtile.conkyrc
 # volumeicon &
 nm-applet &
-xrandr --auto --output HDMI-1-0 --mode 1920x1080 --right-of eDP-1 --primary &
+# xrandr --auto --output HDMI-1-0 --mode 1920x1080 --right-of eDP-1 --primary &
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 picom &
 nitrogen --restore &

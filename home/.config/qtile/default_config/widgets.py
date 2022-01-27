@@ -68,9 +68,9 @@ class Widgets(object):
             # widget.KeyboardLayout(),
             widget.Spacer(length=2),
             # Check updates
-            widget.TextBox(text=""),
-            widget.CheckUpdates(update_interval=1000, distro="Arch_checkupdates", display_format="{updates}"),
-            widget.Spacer(length=2),
+            # widget.TextBox(text=""),
+            # widget.CheckUpdates(update_interval=1000, distro="Arch_checkupdates", display_format="{updates}"),
+            # widget.Spacer(length=2),
             # Volume
             # widget.PulseVolume(),
             widget.Spacer(length=2),
