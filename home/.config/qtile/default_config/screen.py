@@ -22,5 +22,5 @@ class Screens(object):
                 self.widget_list,
                 size=24,
                 background=self.colors.primary_bg_color,
-                opacity=0.7,
+                opacity=0.75,
             )

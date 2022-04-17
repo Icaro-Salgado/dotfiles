@@ -41,6 +41,7 @@ class Bindings(object):
             # Applications launchers
             Key([self.mod], "Return", lazy.spawn(global_definitions.terminal), desc="Launch terminal"),
             Key([self.mod], "r", lazy.spawn("rofi -show drun")),
+            Key([self.mod], "l", lazy.spawn("i3lock-fancy-dualmonitor")),
             # Volume control
             Key([], "XF86AudioRaiseVolume", lazy.spawn("amixer -c 0 -q set Master 2dB+")),
             Key([], "XF86AudioLowerVolume", lazy.spawn("amixer -c 0 -q set Master 2dB-")),

@@ -21,8 +21,8 @@ class Widgets(object):
             ),
             widget.Spacer(length=2),
             # Current layout
-            widget.TextBox(text=""),
-            widget.CurrentLayout(),
+            # widget.TextBox(text=""),
+            # widget.CurrentLayout(),
             # RAM
             widget.TextBox(fontsize=14, text=""),
             widget.Memory(
